@@ -2,20 +2,19 @@ from google.cloud import bigquery
 
 def ejecutar_consulta():
     # Configura tu proyecto y crea un cliente de BigQuery
-    proyecto = "prueba-415603"  # Reemplaza con tu ID de proyecto
+    proyecto = "tu-proyecto"  # Reemplaza con tu ID de proyecto
     client = bigquery.Client(project=proyecto)
 
-    # Especifica tu consulta SQL
-    consulta = """
-        SELECT family, species, COUNT(*) AS cantidad
+    # Especifica tu nueva consulta SQL para obtener el total agrupado por "family" y "species"
+    nueva_consulta = """
+        SELECT family, species, COUNT(*) AS cantidad_total
         FROM `bigquery-public-data.gbif.occurrences`
         WHERE family IS NOT NULL AND species IS NOT NULL
-        GROUP BY family, species
-        HAVING COUNT(*) > 0;
+        GROUP BY family, species;
     """
 
-    # Ejecuta la consulta
-    resultados = client.query(consulta)
+    # Ejecuta la nueva consulta
+    resultados = client.query(nueva_consulta)
 
     # Imprime los resultados
     for fila in resultados:
